@@ -1,0 +1,67 @@
+# SwiftLint Configuration for Timesync
+
+# Disabled rules (too strict or not applicable)
+disabled_rules:
+  - trailing_whitespace  # Xcode handles this
+
+# Opt-in rules (good practices)
+opt_in_rules:
+  - empty_count
+  - empty_string
+  - first_where
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - operator_usage_whitespace
+  - overridden_super_call
+  - prohibited_super_call
+  - redundant_nil_coalescing
+  - single_test_class
+  - sorted_first_last
+  - sorted_imports
+  - static_operator
+  - strong_iboutlet
+  - toggle_bool
+  - unneeded_parentheses_in_closure_argument
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
+
+# Rule configurations
+line_length:
+  warning: 100
+  error: 150
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_comments: true
+
+function_body_length:
+  warning: 30
+  error: 50
+
+function_parameter_count:
+  warning: 4
+  error: 6
+
+type_body_length:
+  warning: 200
+  error: 300
+
+file_length:
+  warning: 300
+  error: 500
+
+cyclomatic_complexity:
+  warning: 10
+  error: 20
+
+nesting:
+  type_level: 2
+  function_level: 3
+
+# Excluded paths
+excluded:
+  - Pods
+  - .build
+  - DerivedData
+
+# Reporter type
+reporter: "xcode"

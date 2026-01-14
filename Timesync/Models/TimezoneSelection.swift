@@ -63,12 +63,12 @@ class TimezoneSelection: ObservableObject {
         do {
             let pinned = try JSONDecoder().decode(TimezoneEntry.self, from: pinnedData)
             // Validate timezone identifier
-            if let timezone = TimeZone(identifier: pinned.identifier),
+            if TimeZone(identifier: pinned.identifier) != nil,
                TimeZone.knownTimeZoneIdentifiers.contains(pinned.identifier) {
                 pinnedTimezone = pinned
             } else {
                 logger.warning(
-                    "Invalid or unknown timezone identifier in pinned timezone: \(pinned.identifier)"
+                    "Invalid or unknown timezone identifier in pinned: \(pinned.identifier)"
                 )
                 pinnedTimezone = Self.defaultMelbourne
             }

@@ -58,7 +58,7 @@ struct CheckboxButton: View {
     var body: some View {
         Button(action: {
             isChecked.toggle()
-        }) {
+        }, label: {
             HStack(spacing: 10) {
                 Image(systemName: isChecked ? "checkmark.square.fill" : "square")
                     .font(.system(size: 14, weight: .semibold))
@@ -76,7 +76,7 @@ struct CheckboxButton: View {
                     : Color.clear
             )
             .cornerRadius(4)
-        }
+        })
         .buttonStyle(.plain)
         .animation(.easeInOut(duration: 0.15), value: isHovered)
         .onHover { hovering in

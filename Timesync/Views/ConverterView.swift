@@ -231,4 +231,3 @@ struct InputHoverEffect: ViewModifier {
             }
     }
 }
-

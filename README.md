@@ -2,6 +2,10 @@
 
 A macOS menu bar app for managing multiple timezones and converting times.
 
+## Website
+
+Visit [timesync.dolmios.com](https://timesync.dolmios.com) for more information and downloads.
+
 ## Features
 
 - Menu bar display of selected timezone with time and weekday
@@ -87,3 +91,19 @@ SwiftLint is configured for code standards. Configuration in `.swiftlint.yml`.
 make lint               # Check
 make format             # Auto-fix
 ```
+
+## Release
+
+See [RELEASE.md](./RELEASE.md) for instructions on creating a release and building the DMG.
+
+## Website
+
+The website is located in `apps/website/` and uses Next.js with stoop-ui. To run locally:
+
+```bash
+cd apps/website
+npm install
+npm run dev
+```
+
+The website follows the same design conventions as [stoop.dolmios.com](https://stoop.dolmios.com).

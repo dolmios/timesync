@@ -62,6 +62,7 @@ excluded:
   - Pods
   - .build
   - DerivedData
+  - Timesync/Services/DateParser.swift
 
 # Reporter type
 reporter: "xcode"

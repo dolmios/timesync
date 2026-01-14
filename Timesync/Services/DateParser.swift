@@ -91,35 +91,54 @@ class DateParser {
 
                     formatter.dateFormat = fullFormat
                     if let date = formatter.date(from: input) {
-                        // If only time was parsed, use today's date
-                        if dateFormat.isEmpty {
-                            let timeComponents = currentCalendar.dateComponents([.hour, .minute], from: date)
-                            let todayComponents = currentCalendar.dateComponents([.year, .month, .day], from: Date())
-                            var combined = DateComponents()
-                            combined.year = todayComponents.year
-                            combined.month = todayComponents.month
-                            combined.day = todayComponents.day
-                            combined.hour = timeComponents.hour
-                            combined.minute = timeComponents.minute
-                            combined.second = 0
-                            return currentCalendar.date(from: combined)
-                        }
-
-                        // If year wasn't provided (parsed as 2000), infer the correct year
-                        let dateComponents = currentCalendar.dateComponents([.year, .month, .day], from: date)
-                        if dateComponents.year == 2000 {
-                            return inferYearAndAdjust(month: dateComponents.month ?? 1,
-                                                     day: dateComponents.day ?? 1,
-                                                     date: date)
-                        }
-
-                        return date
+                        return processParsedDate(date: date, dateFormat: dateFormat)
                     }
                 }
             }
         }
 
         return nil
+    }
+
+    private func processParsedDate(date: Date, dateFormat: String) -> Date? {
+        // If only time was parsed, use today's date
+        if dateFormat.isEmpty {
+            return combineTimeWithToday(date: date)
+        }
+
+        // If year wasn't provided (parsed as 2000), infer the correct year
+        let dateComponents = currentCalendar.dateComponents(
+            [.year, .month, .day],
+            from: date
+        )
+        if dateComponents.year == 2000 {
+            return inferYearAndAdjust(
+                month: dateComponents.month ?? 1,
+                day: dateComponents.day ?? 1,
+                date: date
+            )
+        }
+
+        return date
+    }
+
+    private func combineTimeWithToday(date: Date) -> Date? {
+        let timeComponents = currentCalendar.dateComponents(
+            [.hour, .minute],
+            from: date
+        )
+        let todayComponents = currentCalendar.dateComponents(
+            [.year, .month, .day],
+            from: Date()
+        )
+        var combined = DateComponents()
+        combined.year = todayComponents.year
+        combined.month = todayComponents.month
+        combined.day = todayComponents.day
+        combined.hour = timeComponents.hour
+        combined.minute = timeComponents.minute
+        combined.second = 0
+        return currentCalendar.date(from: combined)
     }
 
     private func inferYearAndAdjust(month: Int, day: Int, date: Date) -> Date {
@@ -148,13 +167,19 @@ class DateParser {
             }
         }
 
-        var components = currentCalendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        var components = currentCalendar.dateComponents(
+            [.year, .month, .day, .hour, .minute, .second],
+            from: date
+        )
         components.year = year
         return currentCalendar.date(from: components) ?? date
     }
 
     private func tryRelativeDatePatterns(_ input: String) -> Date? {
-        var components = currentCalendar.dateComponents([.year, .month, .day, .hour, .minute], from: Date())
+        var components = currentCalendar.dateComponents(
+            [.year, .month, .day, .hour, .minute],
+            from: Date()
+        )
         var dateWasSet = false
 
         // Try parsing patterns in order of priority
@@ -185,7 +210,8 @@ class DateParser {
     }
 
     private func tryInXDaysPattern(_ input: String, components: inout DateComponents) -> DateComponents? {
-        guard let inMatch = input.range(of: #"in\s+(\d+)\s+(days?|weeks?|hours?)"#, options: .regularExpression) else {
+        let pattern = #"in\s+(\d+)\s+(days?|weeks?|hours?)"#
+        guard let inMatch = input.range(of: pattern, options: .regularExpression) else {
             return nil
         }
 
@@ -203,7 +229,11 @@ class DateParser {
             timeInterval = TimeInterval(number * 3600)
         }
 
-        guard let newDate = currentCalendar.date(byAdding: .second, value: Int(timeInterval), to: Date()) else {
+        guard let newDate = currentCalendar.date(
+            byAdding: .second,
+            value: Int(timeInterval),
+            to: Date()
+        ) else {
             return nil
         }
 
@@ -229,7 +259,11 @@ class DateParser {
                 daysToAdd = targetWeekday - today + 7
             }
 
-            guard let date = currentCalendar.date(byAdding: .day, value: daysToAdd, to: Date()) else {
+            guard let date = currentCalendar.date(
+                byAdding: .day,
+                value: daysToAdd,
+                to: Date()
+            ) else {
                 continue
             }
 
@@ -261,7 +295,10 @@ class DateParser {
         )
 
         guard let regex = timeRegex,
-              let match = regex.firstMatch(in: input, range: NSRange(input.startIndex..., in: input)) else {
+              let match = regex.firstMatch(
+                  in: input,
+                  range: NSRange(input.startIndex..., in: input)
+              ) else {
             components.second = 0
             if components.hour == nil {
                 components.hour = currentCalendar.component(.hour, from: Date())

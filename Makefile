@@ -1,4 +1,4 @@
-.PHONY: lint format install-swiftlint build run clean help
+.PHONY: lint format install-swiftlint build run clean dmg help
 
 help:
 	@echo "Timesync Build Commands"
@@ -15,6 +15,7 @@ help:
 	@echo "  make build              - Build the project"
 	@echo "  make run                - Build and run"
 	@echo "  make clean              - Clean build artifacts"
+	@echo "  make dmg                - Build Release and create DMG"
 	@echo ""
 
 # Install SwiftLint via Homebrew
@@ -45,3 +46,30 @@ run: build
 clean:
 	xcodebuild -project Timesync.xcodeproj -scheme Timesync clean
 	@echo "✅ Clean complete"
+
+# Build Release and create DMG
+dmg:
+	@echo "🔨 Building Release..."
+	@mkdir -p build
+	@xcodebuild -project Timesync.xcodeproj \
+		-scheme Timesync \
+		-configuration Release \
+		-derivedDataPath ./build/DerivedData \
+		-quiet || (echo "❌ Build failed"; exit 1)
+	@echo "📦 Creating DMG..."
+	@rm -f build/Timesync.dmg
+	@rm -rf build/Timesync.app
+	@APP_PATH=$$(find ./build/DerivedData -name "Timesync.app" -type d | head -1); \
+	if [ -z "$$APP_PATH" ]; then \
+		echo "❌ Error: Timesync.app not found in build output"; \
+		exit 1; \
+	fi; \
+	cp -R "$$APP_PATH" build/
+	@hdiutil create -volname "Timesync" \
+		-srcfolder build/Timesync.app \
+		-ov -format UDZO \
+		build/Timesync.dmg > /dev/null
+	@mkdir -p apps/website/public
+	@cp build/Timesync.dmg apps/website/public/Timesync.dmg
+	@echo "✅ DMG created at build/Timesync.dmg"
+	@echo "✅ DMG copied to apps/website/public/Timesync.dmg"

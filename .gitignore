@@ -120,3 +120,4 @@ Temporary Items
 
 # Documentation
 *.md.bak
+node_modules

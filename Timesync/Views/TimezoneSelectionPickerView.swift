@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate struct CommonTimezone {
+private struct CommonTimezone {
     let identifier: String
     let code: String
     let name: String
@@ -12,7 +12,7 @@ struct TimezoneSelectionPickerView: View {
     @State private var searchText = ""
     @FocusState private var isSearchFocused: Bool
 
-    fileprivate let commonTimezones: [CommonTimezone] = [
+    private let commonTimezones: [CommonTimezone] = [
         CommonTimezone(identifier: "America/New_York", code: "NYC", name: "New York"),
         CommonTimezone(identifier: "America/Los_Angeles", code: "SFO", name: "San Francisco"),
         CommonTimezone(identifier: "America/Chicago", code: "CHI", name: "Chicago"),
@@ -30,7 +30,7 @@ struct TimezoneSelectionPickerView: View {
         CommonTimezone(identifier: "Europe/Madrid", code: "MAD", name: "Madrid")
     ]
 
-    fileprivate var filteredTimezones: [CommonTimezone] {
+    private var filteredTimezones: [CommonTimezone] {
         if searchText.isEmpty {
             return commonTimezones
         }

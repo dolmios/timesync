@@ -46,8 +46,9 @@ class AppPreferences: ObservableObject {
                     try service.unregister()
                 }
             } catch {
+                let action = enabled ? "register" : "unregister"
                 Logger.preferences.error(
-                    "Failed to \(enabled ? "register" : "unregister") launch on login: \(error.localizedDescription)"
+                    "Failed to \(action) launch on login: \(error.localizedDescription)"
                 )
             }
         }

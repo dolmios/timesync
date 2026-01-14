@@ -1,0 +1,15 @@
+{
+  "name": "timesync",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "lint": "make lint",
+    "format": "make format",
+    "build": "make build",
+    "clean": "make clean",
+    "dmg": "make dmg"
+  }
+}

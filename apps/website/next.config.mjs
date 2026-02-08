@@ -7,6 +7,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  images: {
+    qualities: [100, 75],
+  },
 };
 
 const withMDX = createMDX({

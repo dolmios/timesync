@@ -35,12 +35,16 @@ export function Header(): ReactElement {
           flexShrink: 0,
           minWidth: 0,
           textDecoration: "none",
+          marginBlock: "0 !important"
+
         }}>
         <Text
           as="h5"
+          bottom="none"
+          top="none"
           css={{
             fontWeight: "$bold",
-            margin: 0,
+            marginBlock: "0 !important",
             whiteSpace: "nowrap",
           }}>
           Timesync

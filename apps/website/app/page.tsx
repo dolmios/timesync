@@ -23,6 +23,7 @@ export default function HomePage(): ReactNode {
       <Image
         alt="Timesync macOS menu bar app"
         height={300}
+        quality={100}
         src="/preview.png"
         style={{
           height: "auto",
@@ -136,6 +137,7 @@ export default function HomePage(): ReactNode {
               <Image
                 alt="Timesync TimezonesView showing timezone list"
                 height={400}
+                quality={100}
                 src="/timezones.png"
                 style={{
                   height: "auto",
@@ -167,6 +169,7 @@ export default function HomePage(): ReactNode {
               <Image
                 alt="Timesync ConverterView showing time conversion"
                 height={400}
+                quality={100}
                 src="/convert.png"
                 style={{
                   height: "auto",
@@ -198,6 +201,7 @@ export default function HomePage(): ReactNode {
               <Image
                 alt="Timesync PreferencesView showing app settings"
                 height={400}
+                quality={100}
                 src="/preferences.png"
                 style={{
                   height: "auto",

@@ -30,6 +30,8 @@ export function Header(): ReactElement {
       <Link
         href="/"
         style={{
+          alignItems: "center",
+          display: "flex",
           flexShrink: 0,
           minWidth: 0,
           textDecoration: "none",
